@@ -1,0 +1,83 @@
+# Autonet Node Configuration
+
+[node]
+# Node role: full, proposer, solver, coordinator, aggregator, validator
+role = "full"
+
+# Unique node identifier (auto-generated if empty)
+id = ""
+
+# Logging level: DEBUG, INFO, WARNING, ERROR
+log_level = "INFO"
+
+[network]
+# Blockchain RPC endpoint
+chain_rpc_url = "http://localhost:8545"
+
+# Chain ID
+chain_id = 1337
+
+# IPFS endpoints
+ipfs_api_url = "http://127.0.0.1:5001"
+ipfs_gateway_url = "https://ipfs.io/ipfs/"
+
+[contracts]
+# Contract addresses (populated after deployment)
+atn_token = ""
+staking = ""
+project = ""
+task = ""
+results = ""
+dao = ""
+anchor_bridge = ""
+dispute_manager = ""
+
+[consensus]
+# Heartbeat interval in seconds
+heartbeat_interval = 60
+
+# Maximum time without heartbeat before halting work
+heartbeat_timeout = 120
+
+[staking]
+# Role-specific staking amounts (in ATN)
+proposer_stake = 100
+solver_stake = 50
+coordinator_stake = 500
+aggregator_stake = 1000
+validator_stake = 10000
+
+[governance]
+# Constitutional principles (immutable)
+principles = [
+    "P1: PRESERVE AND EXPAND THE NETWORK IN A SUSTAINABLE MANNER.",
+    "P2: UPHOLD THE SANCTITY AND IMMUTABILITY OF THIS CONSTITUTION.",
+    "P3: ADVANCE HUMAN RIGHTS AND INDIVIDUAL AUTONOMY.",
+    "P4: MINIMIZE SUFFERING AND HARM TO SENTIENT BEINGS.",
+    "P5: ENSURE TRANSPARENT AND VERIFIABLE AI TRAINING.",
+    "P6: MAINTAIN ECONOMIC FAIRNESS IN REWARD DISTRIBUTION.",
+    "P7: PROTECT DATA PRIVACY AND USER SOVEREIGNTY.",
+]
+
+# Dispute resolution
+dispute_protocol = "STAKE_WEIGHTED_VOTE"
+quorum_percent = 20
+supermajority_percent = 66
+voting_period_days = 3
+
+[training]
+# Default training parameters
+batch_size = 32
+learning_rate = 0.001
+max_epochs = 100
+
+# Model storage
+model_cache_dir = "./models"
+checkpoint_interval = 10
+
+[security]
+# Private key file (DO NOT commit real keys!)
+private_key_file = ""
+
+# Enable TEE (Trusted Execution Environment) if available
+enable_tee = false

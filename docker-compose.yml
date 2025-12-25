@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # Local Ethereum node for development
+  hardhat:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "8545:8545"
+    command: npx hardhat node --hostname 0.0.0.0
+    networks:
+      - autonet
+
+  # IPFS node
+  ipfs:
+    image: ipfs/kubo:latest
+    ports:
+      - "4001:4001"
+      - "5001:5001"
+      - "8080:8080"
+    volumes:
+      - ipfs_data:/data/ipfs
+    networks:
+      - autonet
+
+  # Proposer node
+  proposer:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    environment:
+      - NODE_ROLE=proposer
+      - CHAIN_RPC_URL=http://hardhat:8545
+      - IPFS_API_URL=http://ipfs:5001
+    depends_on:
+      - hardhat
+      - ipfs
+    networks:
+      - autonet
+
+  # Solver node
+  solver:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    environment:
+      - NODE_ROLE=solver
+      - CHAIN_RPC_URL=http://hardhat:8545
+      - IPFS_API_URL=http://ipfs:5001
+    depends_on:
+      - hardhat
+      - ipfs
+    networks:
+      - autonet
+
+  # Coordinator node
+  coordinator:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    environment:
+      - NODE_ROLE=coordinator
+      - CHAIN_RPC_URL=http://hardhat:8545
+      - IPFS_API_URL=http://ipfs:5001
+    depends_on:
+      - hardhat
+      - ipfs
+    networks:
+      - autonet
+
+  # Aggregator node
+  aggregator:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    environment:
+      - NODE_ROLE=aggregator
+      - CHAIN_RPC_URL=http://hardhat:8545
+      - IPFS_API_URL=http://ipfs:5001
+    depends_on:
+      - hardhat
+      - ipfs
+    networks:
+      - autonet
+
+volumes:
+  ipfs_data:
+
+networks:
+  autonet:
+    driver: bridge
